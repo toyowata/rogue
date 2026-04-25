@@ -109,7 +109,7 @@ do_daemons(int flag)
 	 * Executing each one, giving it the proper arguments
 	 */
 	if (dev->d_type == flag && dev->d_time == DAEMON)
-	    (*dev->d_func)(dev->d_arg);
+	    ((void (*)(int))dev->d_func)(dev->d_arg);
 }
 
 /*
@@ -176,6 +176,6 @@ do_fuses(int flag)
 	if (flag == wire->d_type && wire->d_time > 0 && --wire->d_time == 0)
 	{
 	    wire->d_type = EMPTY;
-	    (*wire->d_func)(wire->d_arg);
+	    ((void (*)(int))wire->d_func)(wire->d_arg);
 	}
 }
