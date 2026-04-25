@@ -77,10 +77,13 @@ endmsg()
 	mvaddstr(0, mpos, "--More--");
 	refresh();
 	if (!msg_esc)
-	    wait_for(' ');
+	{
+	    while ((ch = readchar()) != ' ' && ch != 'h' && ch != 'j' && ch != 'k' && ch != 'l')
+		continue;
+	}
 	else
 	{
-	    while ((ch = readchar()) != ' ')
+	    while ((ch = readchar()) != ' ' && ch != 'h' && ch != 'j' && ch != 'k' && ch != 'l')
 		if (ch == ESCAPE)
 		{
 		    msgbuf[0] = '\0';
@@ -264,6 +267,7 @@ void
 show_win(char *message)
 {
     WINDOW *win;
+    char ch;
 
     win = hw;
     wmove(win, 0, 0);
@@ -271,7 +275,8 @@ show_win(char *message)
     touchwin(win);
     wmove(win, hero.y, hero.x);
     wrefresh(win);
-    wait_for(' ');
+    while ((ch = readchar()) != ' ' && ch != 'h' && ch != 'j' && ch != 'k' && ch != 'l')
+        continue;
     clearok(curscr, TRUE);
     touchwin(stdscr);
 }
